@@ -1,3 +1,18 @@
+# # # Java part
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+/nbproject/private/
+/dist/
+/build/
+/target/
+
+# # # Python part
+
 *.py[cod]
 
 # C extensions

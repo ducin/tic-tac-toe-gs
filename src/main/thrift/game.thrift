@@ -1,5 +1,5 @@
-namespace java com.blogspot.symfonyworld.tictactoe.thrift.generated
-namespace py SymfonyWorld.TicTacToe
+namespace java com.blogspot.symfonyworld.tictactoegs.thrift.generated
+namespace py SymfonyWorld.TicTacToeGS
 
 typedef i32 int
 
@@ -16,4 +16,12 @@ struct Move {
 struct Game {
     1: required string key,
     2: required list<Move> moves,
+}
+
+service GameService {
+
+  map<string,int> listGames(
+    1:required string token
+  )
+
 }
