@@ -33,8 +33,10 @@ import org.slf4j.LoggerFactory;
 public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Game");
 
-  private static final org.apache.thrift.protocol.TField KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("key", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField MOVES_FIELD_DESC = new org.apache.thrift.protocol.TField("moves", org.apache.thrift.protocol.TType.LIST, (short)2);
+  private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField PLAYERS_FIELD_DESC = new org.apache.thrift.protocol.TField("players", org.apache.thrift.protocol.TType.MAP, (short)2);
+  private static final org.apache.thrift.protocol.TField MOVES_FIELD_DESC = new org.apache.thrift.protocol.TField("moves", org.apache.thrift.protocol.TType.LIST, (short)3);
+  private static final org.apache.thrift.protocol.TField NEXT_MOVE_FIELD_DESC = new org.apache.thrift.protocol.TField("nextMove", org.apache.thrift.protocol.TType.I32, (short)4);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -42,13 +44,25 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     schemes.put(TupleScheme.class, new GameTupleSchemeFactory());
   }
 
-  public String key; // required
+  public String id; // required
+  public Map<String,Player> players; // required
   public List<Move> moves; // required
+  /**
+   * 
+   * @see Player
+   */
+  public Player nextMove; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    KEY((short)1, "key"),
-    MOVES((short)2, "moves");
+    ID((short)1, "id"),
+    PLAYERS((short)2, "players"),
+    MOVES((short)3, "moves"),
+    /**
+     * 
+     * @see Player
+     */
+    NEXT_MOVE((short)4, "nextMove");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -63,10 +77,14 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // KEY
-          return KEY;
-        case 2: // MOVES
+        case 1: // ID
+          return ID;
+        case 2: // PLAYERS
+          return PLAYERS;
+        case 3: // MOVES
           return MOVES;
+        case 4: // NEXT_MOVE
+          return NEXT_MOVE;
         default:
           return null;
       }
@@ -110,11 +128,17 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.KEY, new org.apache.thrift.meta_data.FieldMetaData("key", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+    tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.PLAYERS, new org.apache.thrift.meta_data.FieldMetaData("players", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
+            new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, Player.class))));
     tmpMap.put(_Fields.MOVES, new org.apache.thrift.meta_data.FieldMetaData("moves", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Move.class))));
+    tmpMap.put(_Fields.NEXT_MOVE, new org.apache.thrift.meta_data.FieldMetaData("nextMove", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, Player.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Game.class, metaDataMap);
   }
@@ -123,20 +147,39 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
   }
 
   public Game(
-    String key,
-    List<Move> moves)
+    String id,
+    Map<String,Player> players,
+    List<Move> moves,
+    Player nextMove)
   {
     this();
-    this.key = key;
+    this.id = id;
+    this.players = players;
     this.moves = moves;
+    this.nextMove = nextMove;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
   public Game(Game other) {
-    if (other.isSetKey()) {
-      this.key = other.key;
+    if (other.isSetId()) {
+      this.id = other.id;
+    }
+    if (other.isSetPlayers()) {
+      Map<String,Player> __this__players = new HashMap<String,Player>();
+      for (Map.Entry<String, Player> other_element : other.players.entrySet()) {
+
+        String other_element_key = other_element.getKey();
+        Player other_element_value = other_element.getValue();
+
+        String __this__players_copy_key = other_element_key;
+
+        Player __this__players_copy_value = other_element_value;
+
+        __this__players.put(__this__players_copy_key, __this__players_copy_value);
+      }
+      this.players = __this__players;
     }
     if (other.isSetMoves()) {
       List<Move> __this__moves = new ArrayList<Move>();
@@ -144,6 +187,9 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
         __this__moves.add(new Move(other_element));
       }
       this.moves = __this__moves;
+    }
+    if (other.isSetNextMove()) {
+      this.nextMove = other.nextMove;
     }
   }
 
@@ -153,31 +199,68 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
 
   @Override
   public void clear() {
-    this.key = null;
+    this.id = null;
+    this.players = null;
     this.moves = null;
+    this.nextMove = null;
   }
 
-  public String getKey() {
-    return this.key;
+  public String getId() {
+    return this.id;
   }
 
-  public Game setKey(String key) {
-    this.key = key;
+  public Game setId(String id) {
+    this.id = id;
     return this;
   }
 
-  public void unsetKey() {
-    this.key = null;
+  public void unsetId() {
+    this.id = null;
   }
 
-  /** Returns true if field key is set (has been assigned a value) and false otherwise */
-  public boolean isSetKey() {
-    return this.key != null;
+  /** Returns true if field id is set (has been assigned a value) and false otherwise */
+  public boolean isSetId() {
+    return this.id != null;
   }
 
-  public void setKeyIsSet(boolean value) {
+  public void setIdIsSet(boolean value) {
     if (!value) {
-      this.key = null;
+      this.id = null;
+    }
+  }
+
+  public int getPlayersSize() {
+    return (this.players == null) ? 0 : this.players.size();
+  }
+
+  public void putToPlayers(String key, Player val) {
+    if (this.players == null) {
+      this.players = new HashMap<String,Player>();
+    }
+    this.players.put(key, val);
+  }
+
+  public Map<String,Player> getPlayers() {
+    return this.players;
+  }
+
+  public Game setPlayers(Map<String,Player> players) {
+    this.players = players;
+    return this;
+  }
+
+  public void unsetPlayers() {
+    this.players = null;
+  }
+
+  /** Returns true if field players is set (has been assigned a value) and false otherwise */
+  public boolean isSetPlayers() {
+    return this.players != null;
+  }
+
+  public void setPlayersIsSet(boolean value) {
+    if (!value) {
+      this.players = null;
     }
   }
 
@@ -220,13 +303,53 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     }
   }
 
+  /**
+   * 
+   * @see Player
+   */
+  public Player getNextMove() {
+    return this.nextMove;
+  }
+
+  /**
+   * 
+   * @see Player
+   */
+  public Game setNextMove(Player nextMove) {
+    this.nextMove = nextMove;
+    return this;
+  }
+
+  public void unsetNextMove() {
+    this.nextMove = null;
+  }
+
+  /** Returns true if field nextMove is set (has been assigned a value) and false otherwise */
+  public boolean isSetNextMove() {
+    return this.nextMove != null;
+  }
+
+  public void setNextMoveIsSet(boolean value) {
+    if (!value) {
+      this.nextMove = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case KEY:
+    case ID:
       if (value == null) {
-        unsetKey();
+        unsetId();
       } else {
-        setKey((String)value);
+        setId((String)value);
+      }
+      break;
+
+    case PLAYERS:
+      if (value == null) {
+        unsetPlayers();
+      } else {
+        setPlayers((Map<String,Player>)value);
       }
       break;
 
@@ -238,16 +361,30 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
       }
       break;
 
+    case NEXT_MOVE:
+      if (value == null) {
+        unsetNextMove();
+      } else {
+        setNextMove((Player)value);
+      }
+      break;
+
     }
   }
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case KEY:
-      return getKey();
+    case ID:
+      return getId();
+
+    case PLAYERS:
+      return getPlayers();
 
     case MOVES:
       return getMoves();
+
+    case NEXT_MOVE:
+      return getNextMove();
 
     }
     throw new IllegalStateException();
@@ -260,10 +397,14 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     }
 
     switch (field) {
-    case KEY:
-      return isSetKey();
+    case ID:
+      return isSetId();
+    case PLAYERS:
+      return isSetPlayers();
     case MOVES:
       return isSetMoves();
+    case NEXT_MOVE:
+      return isSetNextMove();
     }
     throw new IllegalStateException();
   }
@@ -281,12 +422,21 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     if (that == null)
       return false;
 
-    boolean this_present_key = true && this.isSetKey();
-    boolean that_present_key = true && that.isSetKey();
-    if (this_present_key || that_present_key) {
-      if (!(this_present_key && that_present_key))
+    boolean this_present_id = true && this.isSetId();
+    boolean that_present_id = true && that.isSetId();
+    if (this_present_id || that_present_id) {
+      if (!(this_present_id && that_present_id))
         return false;
-      if (!this.key.equals(that.key))
+      if (!this.id.equals(that.id))
+        return false;
+    }
+
+    boolean this_present_players = true && this.isSetPlayers();
+    boolean that_present_players = true && that.isSetPlayers();
+    if (this_present_players || that_present_players) {
+      if (!(this_present_players && that_present_players))
+        return false;
+      if (!this.players.equals(that.players))
         return false;
     }
 
@@ -296,6 +446,15 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
       if (!(this_present_moves && that_present_moves))
         return false;
       if (!this.moves.equals(that.moves))
+        return false;
+    }
+
+    boolean this_present_nextMove = true && this.isSetNextMove();
+    boolean that_present_nextMove = true && that.isSetNextMove();
+    if (this_present_nextMove || that_present_nextMove) {
+      if (!(this_present_nextMove && that_present_nextMove))
+        return false;
+      if (!this.nextMove.equals(that.nextMove))
         return false;
     }
 
@@ -315,12 +474,22 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     int lastComparison = 0;
     Game typedOther = (Game)other;
 
-    lastComparison = Boolean.valueOf(isSetKey()).compareTo(typedOther.isSetKey());
+    lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetKey()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.key, typedOther.key);
+    if (isSetId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, typedOther.id);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetPlayers()).compareTo(typedOther.isSetPlayers());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetPlayers()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.players, typedOther.players);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -331,6 +500,16 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     }
     if (isSetMoves()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.moves, typedOther.moves);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetNextMove()).compareTo(typedOther.isSetNextMove());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetNextMove()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.nextMove, typedOther.nextMove);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -355,11 +534,19 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     StringBuilder sb = new StringBuilder("Game(");
     boolean first = true;
 
-    sb.append("key:");
-    if (this.key == null) {
+    sb.append("id:");
+    if (this.id == null) {
       sb.append("null");
     } else {
-      sb.append(this.key);
+      sb.append(this.id);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("players:");
+    if (this.players == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.players);
     }
     first = false;
     if (!first) sb.append(", ");
@@ -370,17 +557,31 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
       sb.append(this.moves);
     }
     first = false;
+    if (!first) sb.append(", ");
+    sb.append("nextMove:");
+    if (this.nextMove == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.nextMove);
+    }
+    first = false;
     sb.append(")");
     return sb.toString();
   }
 
   public void validate() throws org.apache.thrift.TException {
     // check for required fields
-    if (key == null) {
-      throw new org.apache.thrift.protocol.TProtocolException("Required field 'key' was not present! Struct: " + toString());
+    if (id == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'id' was not present! Struct: " + toString());
+    }
+    if (players == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'players' was not present! Struct: " + toString());
     }
     if (moves == null) {
       throw new org.apache.thrift.protocol.TProtocolException("Required field 'moves' was not present! Struct: " + toString());
+    }
+    if (nextMove == null) {
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'nextMove' was not present! Struct: " + toString());
     }
     // check for sub-struct validity
   }
@@ -419,29 +620,57 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
           break;
         }
         switch (schemeField.id) {
-          case 1: // KEY
+          case 1: // ID
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.key = iprot.readString();
-              struct.setKeyIsSet(true);
+              struct.id = iprot.readString();
+              struct.setIdIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // MOVES
+          case 2: // PLAYERS
+            if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
+              {
+                org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
+                struct.players = new HashMap<String,Player>(2*_map0.size);
+                for (int _i1 = 0; _i1 < _map0.size; ++_i1)
+                {
+                  String _key2; // required
+                  Player _val3; // optional
+                  _key2 = iprot.readString();
+                  _val3 = Player.findByValue(iprot.readI32());
+                  struct.players.put(_key2, _val3);
+                }
+                iprot.readMapEnd();
+              }
+              struct.setPlayersIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 3: // MOVES
             if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                struct.moves = new ArrayList<Move>(_list0.size);
-                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
+                struct.moves = new ArrayList<Move>(_list4.size);
+                for (int _i5 = 0; _i5 < _list4.size; ++_i5)
                 {
-                  Move _elem2; // required
-                  _elem2 = new Move();
-                  _elem2.read(iprot);
-                  struct.moves.add(_elem2);
+                  Move _elem6; // required
+                  _elem6 = new Move();
+                  _elem6.read(iprot);
+                  struct.moves.add(_elem6);
                 }
                 iprot.readListEnd();
               }
               struct.setMovesIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 4: // NEXT_MOVE
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.nextMove = Player.findByValue(iprot.readI32());
+              struct.setNextMoveIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -461,21 +690,39 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      if (struct.key != null) {
-        oprot.writeFieldBegin(KEY_FIELD_DESC);
-        oprot.writeString(struct.key);
+      if (struct.id != null) {
+        oprot.writeFieldBegin(ID_FIELD_DESC);
+        oprot.writeString(struct.id);
+        oprot.writeFieldEnd();
+      }
+      if (struct.players != null) {
+        oprot.writeFieldBegin(PLAYERS_FIELD_DESC);
+        {
+          oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.I32, struct.players.size()));
+          for (Map.Entry<String, Player> _iter7 : struct.players.entrySet())
+          {
+            oprot.writeString(_iter7.getKey());
+            oprot.writeI32(_iter7.getValue().getValue());
+          }
+          oprot.writeMapEnd();
+        }
         oprot.writeFieldEnd();
       }
       if (struct.moves != null) {
         oprot.writeFieldBegin(MOVES_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.moves.size()));
-          for (Move _iter3 : struct.moves)
+          for (Move _iter8 : struct.moves)
           {
-            _iter3.write(oprot);
+            _iter8.write(oprot);
           }
           oprot.writeListEnd();
         }
+        oprot.writeFieldEnd();
+      }
+      if (struct.nextMove != null) {
+        oprot.writeFieldBegin(NEXT_MOVE_FIELD_DESC);
+        oprot.writeI32(struct.nextMove.getValue());
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -495,33 +742,57 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
     @Override
     public void write(org.apache.thrift.protocol.TProtocol prot, Game struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
-      oprot.writeString(struct.key);
+      oprot.writeString(struct.id);
       {
-        oprot.writeI32(struct.moves.size());
-        for (Move _iter4 : struct.moves)
+        oprot.writeI32(struct.players.size());
+        for (Map.Entry<String, Player> _iter9 : struct.players.entrySet())
         {
-          _iter4.write(oprot);
+          oprot.writeString(_iter9.getKey());
+          oprot.writeI32(_iter9.getValue().getValue());
         }
       }
+      {
+        oprot.writeI32(struct.moves.size());
+        for (Move _iter10 : struct.moves)
+        {
+          _iter10.write(oprot);
+        }
+      }
+      oprot.writeI32(struct.nextMove.getValue());
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Game struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      struct.key = iprot.readString();
-      struct.setKeyIsSet(true);
+      struct.id = iprot.readString();
+      struct.setIdIsSet(true);
       {
-        org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-        struct.moves = new ArrayList<Move>(_list5.size);
-        for (int _i6 = 0; _i6 < _list5.size; ++_i6)
+        org.apache.thrift.protocol.TMap _map11 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.I32, iprot.readI32());
+        struct.players = new HashMap<String,Player>(2*_map11.size);
+        for (int _i12 = 0; _i12 < _map11.size; ++_i12)
         {
-          Move _elem7; // required
-          _elem7 = new Move();
-          _elem7.read(iprot);
-          struct.moves.add(_elem7);
+          String _key13; // required
+          Player _val14; // required
+          _key13 = iprot.readString();
+          _val14 = Player.findByValue(iprot.readI32());
+          struct.players.put(_key13, _val14);
+        }
+      }
+      struct.setPlayersIsSet(true);
+      {
+        org.apache.thrift.protocol.TList _list15 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+        struct.moves = new ArrayList<Move>(_list15.size);
+        for (int _i16 = 0; _i16 < _list15.size; ++_i16)
+        {
+          Move _elem17; // required
+          _elem17 = new Move();
+          _elem17.read(iprot);
+          struct.moves.add(_elem17);
         }
       }
       struct.setMovesIsSet(true);
+      struct.nextMove = Player.findByValue(iprot.readI32());
+      struct.setNextMoveIsSet(true);
     }
   }
 

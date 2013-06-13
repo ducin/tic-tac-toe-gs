@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 
-import sys
-sys.path.append('../gen-py')
-
-from SymfonyWorld.TicTacToeGS import GameService
-from SymfonyWorld.TicTacToeGS.ttypes import *
-from SymfonyWorld.TicTacToeGS.constants import *
-
 from thrift import Thrift
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
+
+from SymfonyWorld.TicTacToeGS import GameService
+from SymfonyWorld.TicTacToeGS.ttypes import *
+from SymfonyWorld.TicTacToeGS.constants import *
 
 try:
   # Make socket
@@ -28,13 +25,9 @@ try:
   # Connect!
   transport.open()
 
-  client.listGames('test123')
+  games = client.listGames()
   print "listGames()"
-
-  msg = client.sayHello()
-  print msg
-  msg = client.sayMsg(HELLO_IN_KOREAN)
-  print msg
+  print games
 
   transport.close()
 

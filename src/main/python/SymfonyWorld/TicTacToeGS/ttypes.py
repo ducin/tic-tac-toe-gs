@@ -110,19 +110,25 @@ class Move:
 class Game:
   """
   Attributes:
-   - key
+   - id
+   - players
    - moves
+   - nextMove
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'key', None, None, ), # 1
-    (2, TType.LIST, 'moves', (TType.STRUCT,(Move, Move.thrift_spec)), None, ), # 2
+    (1, TType.STRING, 'id', None, None, ), # 1
+    (2, TType.MAP, 'players', (TType.STRING,None,TType.I32,None), None, ), # 2
+    (3, TType.LIST, 'moves', (TType.STRUCT,(Move, Move.thrift_spec)), None, ), # 3
+    (4, TType.I32, 'nextMove', None, None, ), # 4
   )
 
-  def __init__(self, key=None, moves=None,):
-    self.key = key
+  def __init__(self, id=None, players=None, moves=None, nextMove=None,):
+    self.id = id
+    self.players = players
     self.moves = moves
+    self.nextMove = nextMove
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -135,18 +141,34 @@ class Game:
         break
       if fid == 1:
         if ftype == TType.STRING:
-          self.key = iprot.readString();
+          self.id = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 2:
+        if ftype == TType.MAP:
+          self.players = {}
+          (_ktype1, _vtype2, _size0 ) = iprot.readMapBegin() 
+          for _i4 in xrange(_size0):
+            _key5 = iprot.readString();
+            _val6 = iprot.readI32();
+            self.players[_key5] = _val6
+          iprot.readMapEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
         if ftype == TType.LIST:
           self.moves = []
-          (_etype3, _size0) = iprot.readListBegin()
-          for _i4 in xrange(_size0):
-            _elem5 = Move()
-            _elem5.read(iprot)
-            self.moves.append(_elem5)
+          (_etype10, _size7) = iprot.readListBegin()
+          for _i11 in xrange(_size7):
+            _elem12 = Move()
+            _elem12.read(iprot)
+            self.moves.append(_elem12)
           iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.I32:
+          self.nextMove = iprot.readI32();
         else:
           iprot.skip(ftype)
       else:
@@ -159,25 +181,41 @@ class Game:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('Game')
-    if self.key is not None:
-      oprot.writeFieldBegin('key', TType.STRING, 1)
-      oprot.writeString(self.key)
+    if self.id is not None:
+      oprot.writeFieldBegin('id', TType.STRING, 1)
+      oprot.writeString(self.id)
+      oprot.writeFieldEnd()
+    if self.players is not None:
+      oprot.writeFieldBegin('players', TType.MAP, 2)
+      oprot.writeMapBegin(TType.STRING, TType.I32, len(self.players))
+      for kiter13,viter14 in self.players.items():
+        oprot.writeString(kiter13)
+        oprot.writeI32(viter14)
+      oprot.writeMapEnd()
       oprot.writeFieldEnd()
     if self.moves is not None:
-      oprot.writeFieldBegin('moves', TType.LIST, 2)
+      oprot.writeFieldBegin('moves', TType.LIST, 3)
       oprot.writeListBegin(TType.STRUCT, len(self.moves))
-      for iter6 in self.moves:
-        iter6.write(oprot)
+      for iter15 in self.moves:
+        iter15.write(oprot)
       oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    if self.nextMove is not None:
+      oprot.writeFieldBegin('nextMove', TType.I32, 4)
+      oprot.writeI32(self.nextMove)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.key is None:
-      raise TProtocol.TProtocolException(message='Required field key is unset!')
+    if self.id is None:
+      raise TProtocol.TProtocolException(message='Required field id is unset!')
+    if self.players is None:
+      raise TProtocol.TProtocolException(message='Required field players is unset!')
     if self.moves is None:
       raise TProtocol.TProtocolException(message='Required field moves is unset!')
+    if self.nextMove is None:
+      raise TProtocol.TProtocolException(message='Required field nextMove is unset!')
     return
 
 
