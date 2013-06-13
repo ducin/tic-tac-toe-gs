@@ -636,7 +636,7 @@ public class Game implements org.apache.thrift.TBase<Game, Game._Fields>, java.i
                 for (int _i1 = 0; _i1 < _map0.size; ++_i1)
                 {
                   String _key2; // required
-                  Player _val3; // optional
+                  Player _val3; // required
                   _key2 = iprot.readString();
                   _val3 = Player.findByValue(iprot.readI32());
                   struct.players.put(_key2, _val3);

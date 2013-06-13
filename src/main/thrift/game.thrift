@@ -32,10 +32,10 @@ service GameService {
 
   oneway void quitGame(
     1:required string userToken,
-    2:required string GameId
+    2:required string gameId
   ),
 
-  string registerGamePlayer(
+  string joinGame(
     1:required string gameId
   ),
 

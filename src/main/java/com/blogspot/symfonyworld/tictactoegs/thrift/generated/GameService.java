@@ -40,9 +40,9 @@ public class GameService {
 
     public Game gameInfo(String gameId) throws org.apache.thrift.TException;
 
-    public void quitGame(String userToken, String GameId) throws org.apache.thrift.TException;
+    public void quitGame(String userToken, String gameId) throws org.apache.thrift.TException;
 
-    public String registerGamePlayer(String gameId) throws org.apache.thrift.TException;
+    public String joinGame(String gameId) throws org.apache.thrift.TException;
 
     public Player gameNextMove(String gameId) throws org.apache.thrift.TException;
 
@@ -58,9 +58,9 @@ public class GameService {
 
     public void gameInfo(String gameId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.gameInfo_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void quitGame(String userToken, String GameId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.quitGame_call> resultHandler) throws org.apache.thrift.TException;
+    public void quitGame(String userToken, String gameId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.quitGame_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void registerGamePlayer(String gameId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.registerGamePlayer_call> resultHandler) throws org.apache.thrift.TException;
+    public void joinGame(String gameId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.joinGame_call> resultHandler) throws org.apache.thrift.TException;
 
     public void gameNextMove(String gameId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.gameNextMove_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -155,40 +155,40 @@ public class GameService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "gameInfo failed: unknown result");
     }
 
-    public void quitGame(String userToken, String GameId) throws org.apache.thrift.TException
+    public void quitGame(String userToken, String gameId) throws org.apache.thrift.TException
     {
-      send_quitGame(userToken, GameId);
+      send_quitGame(userToken, gameId);
     }
 
-    public void send_quitGame(String userToken, String GameId) throws org.apache.thrift.TException
+    public void send_quitGame(String userToken, String gameId) throws org.apache.thrift.TException
     {
       quitGame_args args = new quitGame_args();
       args.setUserToken(userToken);
-      args.setGameId(GameId);
+      args.setGameId(gameId);
       sendBase("quitGame", args);
     }
 
-    public String registerGamePlayer(String gameId) throws org.apache.thrift.TException
+    public String joinGame(String gameId) throws org.apache.thrift.TException
     {
-      send_registerGamePlayer(gameId);
-      return recv_registerGamePlayer();
+      send_joinGame(gameId);
+      return recv_joinGame();
     }
 
-    public void send_registerGamePlayer(String gameId) throws org.apache.thrift.TException
+    public void send_joinGame(String gameId) throws org.apache.thrift.TException
     {
-      registerGamePlayer_args args = new registerGamePlayer_args();
+      joinGame_args args = new joinGame_args();
       args.setGameId(gameId);
-      sendBase("registerGamePlayer", args);
+      sendBase("joinGame", args);
     }
 
-    public String recv_registerGamePlayer() throws org.apache.thrift.TException
+    public String recv_joinGame() throws org.apache.thrift.TException
     {
-      registerGamePlayer_result result = new registerGamePlayer_result();
-      receiveBase(result, "registerGamePlayer");
+      joinGame_result result = new joinGame_result();
+      receiveBase(result, "joinGame");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "registerGamePlayer failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "joinGame failed: unknown result");
     }
 
     public Player gameNextMove(String gameId) throws org.apache.thrift.TException
@@ -346,27 +346,27 @@ public class GameService {
       }
     }
 
-    public void quitGame(String userToken, String GameId, org.apache.thrift.async.AsyncMethodCallback<quitGame_call> resultHandler) throws org.apache.thrift.TException {
+    public void quitGame(String userToken, String gameId, org.apache.thrift.async.AsyncMethodCallback<quitGame_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      quitGame_call method_call = new quitGame_call(userToken, GameId, resultHandler, this, ___protocolFactory, ___transport);
+      quitGame_call method_call = new quitGame_call(userToken, gameId, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class quitGame_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String userToken;
-      private String GameId;
-      public quitGame_call(String userToken, String GameId, org.apache.thrift.async.AsyncMethodCallback<quitGame_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private String gameId;
+      public quitGame_call(String userToken, String gameId, org.apache.thrift.async.AsyncMethodCallback<quitGame_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, true);
         this.userToken = userToken;
-        this.GameId = GameId;
+        this.gameId = gameId;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("quitGame", org.apache.thrift.protocol.TMessageType.CALL, 0));
         quitGame_args args = new quitGame_args();
         args.setUserToken(userToken);
-        args.setGameId(GameId);
+        args.setGameId(gameId);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -380,23 +380,23 @@ public class GameService {
       }
     }
 
-    public void registerGamePlayer(String gameId, org.apache.thrift.async.AsyncMethodCallback<registerGamePlayer_call> resultHandler) throws org.apache.thrift.TException {
+    public void joinGame(String gameId, org.apache.thrift.async.AsyncMethodCallback<joinGame_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      registerGamePlayer_call method_call = new registerGamePlayer_call(gameId, resultHandler, this, ___protocolFactory, ___transport);
+      joinGame_call method_call = new joinGame_call(gameId, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class registerGamePlayer_call extends org.apache.thrift.async.TAsyncMethodCall {
+    public static class joinGame_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String gameId;
-      public registerGamePlayer_call(String gameId, org.apache.thrift.async.AsyncMethodCallback<registerGamePlayer_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      public joinGame_call(String gameId, org.apache.thrift.async.AsyncMethodCallback<joinGame_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.gameId = gameId;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("registerGamePlayer", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        registerGamePlayer_args args = new registerGamePlayer_args();
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("joinGame", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        joinGame_args args = new joinGame_args();
         args.setGameId(gameId);
         args.write(prot);
         prot.writeMessageEnd();
@@ -408,7 +408,7 @@ public class GameService {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_registerGamePlayer();
+        return (new Client(prot)).recv_joinGame();
       }
     }
 
@@ -496,7 +496,7 @@ public class GameService {
       processMap.put("newGame", new newGame());
       processMap.put("gameInfo", new gameInfo());
       processMap.put("quitGame", new quitGame());
-      processMap.put("registerGamePlayer", new registerGamePlayer());
+      processMap.put("joinGame", new joinGame());
       processMap.put("gameNextMove", new gameNextMove());
       processMap.put("gameMove", new gameMove());
       return processMap;
@@ -576,27 +576,27 @@ public class GameService {
       }
 
       public org.apache.thrift.TBase getResult(I iface, quitGame_args args) throws org.apache.thrift.TException {
-        iface.quitGame(args.userToken, args.GameId);
+        iface.quitGame(args.userToken, args.gameId);
         return null;
       }
     }
 
-    public static class registerGamePlayer<I extends Iface> extends org.apache.thrift.ProcessFunction<I, registerGamePlayer_args> {
-      public registerGamePlayer() {
-        super("registerGamePlayer");
+    public static class joinGame<I extends Iface> extends org.apache.thrift.ProcessFunction<I, joinGame_args> {
+      public joinGame() {
+        super("joinGame");
       }
 
-      public registerGamePlayer_args getEmptyArgsInstance() {
-        return new registerGamePlayer_args();
+      public joinGame_args getEmptyArgsInstance() {
+        return new joinGame_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public registerGamePlayer_result getResult(I iface, registerGamePlayer_args args) throws org.apache.thrift.TException {
-        registerGamePlayer_result result = new registerGamePlayer_result();
-        result.success = iface.registerGamePlayer(args.gameId);
+      public joinGame_result getResult(I iface, joinGame_args args) throws org.apache.thrift.TException {
+        joinGame_result result = new joinGame_result();
+        result.success = iface.joinGame(args.gameId);
         return result;
       }
     }
@@ -2617,7 +2617,7 @@ public class GameService {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("quitGame_args");
 
     private static final org.apache.thrift.protocol.TField USER_TOKEN_FIELD_DESC = new org.apache.thrift.protocol.TField("userToken", org.apache.thrift.protocol.TType.STRING, (short)1);
-    private static final org.apache.thrift.protocol.TField GAME_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("GameId", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField GAME_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("gameId", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -2626,12 +2626,12 @@ public class GameService {
     }
 
     public String userToken; // required
-    public String GameId; // required
+    public String gameId; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       USER_TOKEN((short)1, "userToken"),
-      GAME_ID((short)2, "GameId");
+      GAME_ID((short)2, "gameId");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2695,7 +2695,7 @@ public class GameService {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.USER_TOKEN, new org.apache.thrift.meta_data.FieldMetaData("userToken", org.apache.thrift.TFieldRequirementType.REQUIRED, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-      tmpMap.put(_Fields.GAME_ID, new org.apache.thrift.meta_data.FieldMetaData("GameId", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+      tmpMap.put(_Fields.GAME_ID, new org.apache.thrift.meta_data.FieldMetaData("gameId", org.apache.thrift.TFieldRequirementType.REQUIRED, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(quitGame_args.class, metaDataMap);
@@ -2706,11 +2706,11 @@ public class GameService {
 
     public quitGame_args(
       String userToken,
-      String GameId)
+      String gameId)
     {
       this();
       this.userToken = userToken;
-      this.GameId = GameId;
+      this.gameId = gameId;
     }
 
     /**
@@ -2721,7 +2721,7 @@ public class GameService {
         this.userToken = other.userToken;
       }
       if (other.isSetGameId()) {
-        this.GameId = other.GameId;
+        this.gameId = other.gameId;
       }
     }
 
@@ -2732,7 +2732,7 @@ public class GameService {
     @Override
     public void clear() {
       this.userToken = null;
-      this.GameId = null;
+      this.gameId = null;
     }
 
     public String getUserToken() {
@@ -2760,26 +2760,26 @@ public class GameService {
     }
 
     public String getGameId() {
-      return this.GameId;
+      return this.gameId;
     }
 
-    public quitGame_args setGameId(String GameId) {
-      this.GameId = GameId;
+    public quitGame_args setGameId(String gameId) {
+      this.gameId = gameId;
       return this;
     }
 
     public void unsetGameId() {
-      this.GameId = null;
+      this.gameId = null;
     }
 
-    /** Returns true if field GameId is set (has been assigned a value) and false otherwise */
+    /** Returns true if field gameId is set (has been assigned a value) and false otherwise */
     public boolean isSetGameId() {
-      return this.GameId != null;
+      return this.gameId != null;
     }
 
     public void setGameIdIsSet(boolean value) {
       if (!value) {
-        this.GameId = null;
+        this.gameId = null;
       }
     }
 
@@ -2853,12 +2853,12 @@ public class GameService {
           return false;
       }
 
-      boolean this_present_GameId = true && this.isSetGameId();
-      boolean that_present_GameId = true && that.isSetGameId();
-      if (this_present_GameId || that_present_GameId) {
-        if (!(this_present_GameId && that_present_GameId))
+      boolean this_present_gameId = true && this.isSetGameId();
+      boolean that_present_gameId = true && that.isSetGameId();
+      if (this_present_gameId || that_present_gameId) {
+        if (!(this_present_gameId && that_present_gameId))
           return false;
-        if (!this.GameId.equals(that.GameId))
+        if (!this.gameId.equals(that.gameId))
           return false;
       }
 
@@ -2893,7 +2893,7 @@ public class GameService {
         return lastComparison;
       }
       if (isSetGameId()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.GameId, typedOther.GameId);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.gameId, typedOther.gameId);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2926,11 +2926,11 @@ public class GameService {
       }
       first = false;
       if (!first) sb.append(", ");
-      sb.append("GameId:");
-      if (this.GameId == null) {
+      sb.append("gameId:");
+      if (this.gameId == null) {
         sb.append("null");
       } else {
-        sb.append(this.GameId);
+        sb.append(this.gameId);
       }
       first = false;
       sb.append(")");
@@ -2942,8 +2942,8 @@ public class GameService {
       if (userToken == null) {
         throw new org.apache.thrift.protocol.TProtocolException("Required field 'userToken' was not present! Struct: " + toString());
       }
-      if (GameId == null) {
-        throw new org.apache.thrift.protocol.TProtocolException("Required field 'GameId' was not present! Struct: " + toString());
+      if (gameId == null) {
+        throw new org.apache.thrift.protocol.TProtocolException("Required field 'gameId' was not present! Struct: " + toString());
       }
       // check for sub-struct validity
     }
@@ -2992,7 +2992,7 @@ public class GameService {
               break;
             case 2: // GAME_ID
               if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.GameId = iprot.readString();
+                struct.gameId = iprot.readString();
                 struct.setGameIdIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -3018,9 +3018,9 @@ public class GameService {
           oprot.writeString(struct.userToken);
           oprot.writeFieldEnd();
         }
-        if (struct.GameId != null) {
+        if (struct.gameId != null) {
           oprot.writeFieldBegin(GAME_ID_FIELD_DESC);
-          oprot.writeString(struct.GameId);
+          oprot.writeString(struct.gameId);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -3041,7 +3041,7 @@ public class GameService {
       public void write(org.apache.thrift.protocol.TProtocol prot, quitGame_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         oprot.writeString(struct.userToken);
-        oprot.writeString(struct.GameId);
+        oprot.writeString(struct.gameId);
       }
 
       @Override
@@ -3049,22 +3049,22 @@ public class GameService {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         struct.userToken = iprot.readString();
         struct.setUserTokenIsSet(true);
-        struct.GameId = iprot.readString();
+        struct.gameId = iprot.readString();
         struct.setGameIdIsSet(true);
       }
     }
 
   }
 
-  public static class registerGamePlayer_args implements org.apache.thrift.TBase<registerGamePlayer_args, registerGamePlayer_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("registerGamePlayer_args");
+  public static class joinGame_args implements org.apache.thrift.TBase<joinGame_args, joinGame_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("joinGame_args");
 
     private static final org.apache.thrift.protocol.TField GAME_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("gameId", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new registerGamePlayer_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new registerGamePlayer_argsTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new joinGame_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new joinGame_argsTupleSchemeFactory());
     }
 
     public String gameId; // required
@@ -3134,13 +3134,13 @@ public class GameService {
       tmpMap.put(_Fields.GAME_ID, new org.apache.thrift.meta_data.FieldMetaData("gameId", org.apache.thrift.TFieldRequirementType.REQUIRED, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(registerGamePlayer_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(joinGame_args.class, metaDataMap);
     }
 
-    public registerGamePlayer_args() {
+    public joinGame_args() {
     }
 
-    public registerGamePlayer_args(
+    public joinGame_args(
       String gameId)
     {
       this();
@@ -3150,14 +3150,14 @@ public class GameService {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public registerGamePlayer_args(registerGamePlayer_args other) {
+    public joinGame_args(joinGame_args other) {
       if (other.isSetGameId()) {
         this.gameId = other.gameId;
       }
     }
 
-    public registerGamePlayer_args deepCopy() {
-      return new registerGamePlayer_args(this);
+    public joinGame_args deepCopy() {
+      return new joinGame_args(this);
     }
 
     @Override
@@ -3169,7 +3169,7 @@ public class GameService {
       return this.gameId;
     }
 
-    public registerGamePlayer_args setGameId(String gameId) {
+    public joinGame_args setGameId(String gameId) {
       this.gameId = gameId;
       return this;
     }
@@ -3228,12 +3228,12 @@ public class GameService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof registerGamePlayer_args)
-        return this.equals((registerGamePlayer_args)that);
+      if (that instanceof joinGame_args)
+        return this.equals((joinGame_args)that);
       return false;
     }
 
-    public boolean equals(registerGamePlayer_args that) {
+    public boolean equals(joinGame_args that) {
       if (that == null)
         return false;
 
@@ -3254,13 +3254,13 @@ public class GameService {
       return 0;
     }
 
-    public int compareTo(registerGamePlayer_args other) {
+    public int compareTo(joinGame_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      registerGamePlayer_args typedOther = (registerGamePlayer_args)other;
+      joinGame_args typedOther = (joinGame_args)other;
 
       lastComparison = Boolean.valueOf(isSetGameId()).compareTo(typedOther.isSetGameId());
       if (lastComparison != 0) {
@@ -3289,7 +3289,7 @@ public class GameService {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("registerGamePlayer_args(");
+      StringBuilder sb = new StringBuilder("joinGame_args(");
       boolean first = true;
 
       sb.append("gameId:");
@@ -3327,15 +3327,15 @@ public class GameService {
       }
     }
 
-    private static class registerGamePlayer_argsStandardSchemeFactory implements SchemeFactory {
-      public registerGamePlayer_argsStandardScheme getScheme() {
-        return new registerGamePlayer_argsStandardScheme();
+    private static class joinGame_argsStandardSchemeFactory implements SchemeFactory {
+      public joinGame_argsStandardScheme getScheme() {
+        return new joinGame_argsStandardScheme();
       }
     }
 
-    private static class registerGamePlayer_argsStandardScheme extends StandardScheme<registerGamePlayer_args> {
+    private static class joinGame_argsStandardScheme extends StandardScheme<joinGame_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, registerGamePlayer_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, joinGame_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -3364,7 +3364,7 @@ public class GameService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, registerGamePlayer_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, joinGame_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -3379,22 +3379,22 @@ public class GameService {
 
     }
 
-    private static class registerGamePlayer_argsTupleSchemeFactory implements SchemeFactory {
-      public registerGamePlayer_argsTupleScheme getScheme() {
-        return new registerGamePlayer_argsTupleScheme();
+    private static class joinGame_argsTupleSchemeFactory implements SchemeFactory {
+      public joinGame_argsTupleScheme getScheme() {
+        return new joinGame_argsTupleScheme();
       }
     }
 
-    private static class registerGamePlayer_argsTupleScheme extends TupleScheme<registerGamePlayer_args> {
+    private static class joinGame_argsTupleScheme extends TupleScheme<joinGame_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, registerGamePlayer_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, joinGame_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         oprot.writeString(struct.gameId);
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, registerGamePlayer_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, joinGame_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         struct.gameId = iprot.readString();
         struct.setGameIdIsSet(true);
@@ -3403,15 +3403,15 @@ public class GameService {
 
   }
 
-  public static class registerGamePlayer_result implements org.apache.thrift.TBase<registerGamePlayer_result, registerGamePlayer_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("registerGamePlayer_result");
+  public static class joinGame_result implements org.apache.thrift.TBase<joinGame_result, joinGame_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("joinGame_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new registerGamePlayer_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new registerGamePlayer_resultTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new joinGame_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new joinGame_resultTupleSchemeFactory());
     }
 
     public String success; // required
@@ -3481,13 +3481,13 @@ public class GameService {
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(registerGamePlayer_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(joinGame_result.class, metaDataMap);
     }
 
-    public registerGamePlayer_result() {
+    public joinGame_result() {
     }
 
-    public registerGamePlayer_result(
+    public joinGame_result(
       String success)
     {
       this();
@@ -3497,14 +3497,14 @@ public class GameService {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public registerGamePlayer_result(registerGamePlayer_result other) {
+    public joinGame_result(joinGame_result other) {
       if (other.isSetSuccess()) {
         this.success = other.success;
       }
     }
 
-    public registerGamePlayer_result deepCopy() {
-      return new registerGamePlayer_result(this);
+    public joinGame_result deepCopy() {
+      return new joinGame_result(this);
     }
 
     @Override
@@ -3516,7 +3516,7 @@ public class GameService {
       return this.success;
     }
 
-    public registerGamePlayer_result setSuccess(String success) {
+    public joinGame_result setSuccess(String success) {
       this.success = success;
       return this;
     }
@@ -3575,12 +3575,12 @@ public class GameService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof registerGamePlayer_result)
-        return this.equals((registerGamePlayer_result)that);
+      if (that instanceof joinGame_result)
+        return this.equals((joinGame_result)that);
       return false;
     }
 
-    public boolean equals(registerGamePlayer_result that) {
+    public boolean equals(joinGame_result that) {
       if (that == null)
         return false;
 
@@ -3601,13 +3601,13 @@ public class GameService {
       return 0;
     }
 
-    public int compareTo(registerGamePlayer_result other) {
+    public int compareTo(joinGame_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      registerGamePlayer_result typedOther = (registerGamePlayer_result)other;
+      joinGame_result typedOther = (joinGame_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -3636,7 +3636,7 @@ public class GameService {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("registerGamePlayer_result(");
+      StringBuilder sb = new StringBuilder("joinGame_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -3671,15 +3671,15 @@ public class GameService {
       }
     }
 
-    private static class registerGamePlayer_resultStandardSchemeFactory implements SchemeFactory {
-      public registerGamePlayer_resultStandardScheme getScheme() {
-        return new registerGamePlayer_resultStandardScheme();
+    private static class joinGame_resultStandardSchemeFactory implements SchemeFactory {
+      public joinGame_resultStandardScheme getScheme() {
+        return new joinGame_resultStandardScheme();
       }
     }
 
-    private static class registerGamePlayer_resultStandardScheme extends StandardScheme<registerGamePlayer_result> {
+    private static class joinGame_resultStandardScheme extends StandardScheme<joinGame_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, registerGamePlayer_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, joinGame_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -3708,7 +3708,7 @@ public class GameService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, registerGamePlayer_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, joinGame_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -3723,16 +3723,16 @@ public class GameService {
 
     }
 
-    private static class registerGamePlayer_resultTupleSchemeFactory implements SchemeFactory {
-      public registerGamePlayer_resultTupleScheme getScheme() {
-        return new registerGamePlayer_resultTupleScheme();
+    private static class joinGame_resultTupleSchemeFactory implements SchemeFactory {
+      public joinGame_resultTupleScheme getScheme() {
+        return new joinGame_resultTupleScheme();
       }
     }
 
-    private static class registerGamePlayer_resultTupleScheme extends TupleScheme<registerGamePlayer_result> {
+    private static class joinGame_resultTupleScheme extends TupleScheme<joinGame_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, registerGamePlayer_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, joinGame_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -3745,7 +3745,7 @@ public class GameService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, registerGamePlayer_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, joinGame_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {

@@ -50,5 +50,10 @@
             <type>jar</type>
             <version>1.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.ini4j</groupId>
+            <artifactId>ini4j</artifactId>
+            <version>0.5.2</version>
+        </dependency>
     </dependencies>
 </project>

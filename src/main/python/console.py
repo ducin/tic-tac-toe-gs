@@ -1,5 +1,12 @@
 #!/usr/bin/env python
+import os
 import code
+import ConfigParser
+
+filepath = os.path.realpath(__file__ + '/../../resources/config.ini')
+config = ConfigParser.ConfigParser()
+config.read(filepath)
+
 def start_shell():
     from thrift import Thrift
     from thrift.transport import TSocket
@@ -11,7 +18,7 @@ def start_shell():
     from SymfonyWorld.TicTacToeGS.constants import *
 
     # Make socket
-    transport = TSocket.TSocket('localhost', 9090)
+    transport = TSocket.TSocket('localhost', config.get('server', 'port'))
 
     # Buffering is critical. Raw sockets are very slow
     transport = TTransport.TBufferedTransport(transport)
@@ -22,15 +29,8 @@ def start_shell():
     # Create a client to use the protocol encoder
     client = GameService.Client(protocol)
 
-    # Connect!
     transport.open()
-
-#    games = client.listGames()
-#    print "listGames()"
-#    print games
-
-#    transport.close()
-
     code.interact(local=locals())
+    transport.close()
 
 start_shell()

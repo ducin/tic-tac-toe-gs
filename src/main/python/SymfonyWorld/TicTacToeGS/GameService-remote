@@ -26,8 +26,8 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '   listGames()'
   print '  string newGame()'
   print '  Game gameInfo(string gameId)'
-  print '  void quitGame(string userToken, string GameId)'
-  print '  string registerGamePlayer(string gameId)'
+  print '  void quitGame(string userToken, string gameId)'
+  print '  string joinGame(string gameId)'
   print '  Player gameNextMove(string gameId)'
   print '  bool gameMove(string userToken, byte position)'
   print ''
@@ -105,11 +105,11 @@ elif cmd == 'quitGame':
     sys.exit(1)
   pp.pprint(client.quitGame(args[0],args[1],))
 
-elif cmd == 'registerGamePlayer':
+elif cmd == 'joinGame':
   if len(args) != 1:
-    print 'registerGamePlayer requires 1 args'
+    print 'joinGame requires 1 args'
     sys.exit(1)
-  pp.pprint(client.registerGamePlayer(args[0],))
+  pp.pprint(client.joinGame(args[0],))
 
 elif cmd == 'gameNextMove':
   if len(args) != 1:

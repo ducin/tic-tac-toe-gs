@@ -31,15 +31,15 @@ class Iface:
     """
     pass
 
-  def quitGame(self, userToken, GameId):
+  def quitGame(self, userToken, gameId):
     """
     Parameters:
      - userToken
-     - GameId
+     - gameId
     """
     pass
 
-  def registerGamePlayer(self, gameId):
+  def joinGame(self, gameId):
     """
     Parameters:
      - gameId
@@ -149,51 +149,51 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "gameInfo failed: unknown result");
 
-  def quitGame(self, userToken, GameId):
+  def quitGame(self, userToken, gameId):
     """
     Parameters:
      - userToken
-     - GameId
+     - gameId
     """
-    self.send_quitGame(userToken, GameId)
+    self.send_quitGame(userToken, gameId)
 
-  def send_quitGame(self, userToken, GameId):
+  def send_quitGame(self, userToken, gameId):
     self._oprot.writeMessageBegin('quitGame', TMessageType.CALL, self._seqid)
     args = quitGame_args()
     args.userToken = userToken
-    args.GameId = GameId
+    args.gameId = gameId
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
-  def registerGamePlayer(self, gameId):
+  def joinGame(self, gameId):
     """
     Parameters:
      - gameId
     """
-    self.send_registerGamePlayer(gameId)
-    return self.recv_registerGamePlayer()
+    self.send_joinGame(gameId)
+    return self.recv_joinGame()
 
-  def send_registerGamePlayer(self, gameId):
-    self._oprot.writeMessageBegin('registerGamePlayer', TMessageType.CALL, self._seqid)
-    args = registerGamePlayer_args()
+  def send_joinGame(self, gameId):
+    self._oprot.writeMessageBegin('joinGame', TMessageType.CALL, self._seqid)
+    args = joinGame_args()
     args.gameId = gameId
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_registerGamePlayer(self, ):
+  def recv_joinGame(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = registerGamePlayer_result()
+    result = joinGame_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
     if result.success is not None:
       return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "registerGamePlayer failed: unknown result");
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "joinGame failed: unknown result");
 
   def gameNextMove(self, gameId):
     """
@@ -266,7 +266,7 @@ class Processor(Iface, TProcessor):
     self._processMap["newGame"] = Processor.process_newGame
     self._processMap["gameInfo"] = Processor.process_gameInfo
     self._processMap["quitGame"] = Processor.process_quitGame
-    self._processMap["registerGamePlayer"] = Processor.process_registerGamePlayer
+    self._processMap["joinGame"] = Processor.process_joinGame
     self._processMap["gameNextMove"] = Processor.process_gameNextMove
     self._processMap["gameMove"] = Processor.process_gameMove
 
@@ -322,16 +322,16 @@ class Processor(Iface, TProcessor):
     args = quitGame_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    self._handler.quitGame(args.userToken, args.GameId)
+    self._handler.quitGame(args.userToken, args.gameId)
     return
 
-  def process_registerGamePlayer(self, seqid, iprot, oprot):
-    args = registerGamePlayer_args()
+  def process_joinGame(self, seqid, iprot, oprot):
+    args = joinGame_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = registerGamePlayer_result()
-    result.success = self._handler.registerGamePlayer(args.gameId)
-    oprot.writeMessageBegin("registerGamePlayer", TMessageType.REPLY, seqid)
+    result = joinGame_result()
+    result.success = self._handler.joinGame(args.gameId)
+    oprot.writeMessageBegin("joinGame", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -699,18 +699,18 @@ class quitGame_args:
   """
   Attributes:
    - userToken
-   - GameId
+   - gameId
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'userToken', None, None, ), # 1
-    (2, TType.STRING, 'GameId', None, None, ), # 2
+    (2, TType.STRING, 'gameId', None, None, ), # 2
   )
 
-  def __init__(self, userToken=None, GameId=None,):
+  def __init__(self, userToken=None, gameId=None,):
     self.userToken = userToken
-    self.GameId = GameId
+    self.gameId = gameId
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -728,7 +728,7 @@ class quitGame_args:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRING:
-          self.GameId = iprot.readString();
+          self.gameId = iprot.readString();
         else:
           iprot.skip(ftype)
       else:
@@ -745,9 +745,9 @@ class quitGame_args:
       oprot.writeFieldBegin('userToken', TType.STRING, 1)
       oprot.writeString(self.userToken)
       oprot.writeFieldEnd()
-    if self.GameId is not None:
-      oprot.writeFieldBegin('GameId', TType.STRING, 2)
-      oprot.writeString(self.GameId)
+    if self.gameId is not None:
+      oprot.writeFieldBegin('gameId', TType.STRING, 2)
+      oprot.writeString(self.gameId)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -755,8 +755,8 @@ class quitGame_args:
   def validate(self):
     if self.userToken is None:
       raise TProtocol.TProtocolException(message='Required field userToken is unset!')
-    if self.GameId is None:
-      raise TProtocol.TProtocolException(message='Required field GameId is unset!')
+    if self.gameId is None:
+      raise TProtocol.TProtocolException(message='Required field gameId is unset!')
     return
 
 
@@ -771,7 +771,7 @@ class quitGame_args:
   def __ne__(self, other):
     return not (self == other)
 
-class registerGamePlayer_args:
+class joinGame_args:
   """
   Attributes:
    - gameId
@@ -808,7 +808,7 @@ class registerGamePlayer_args:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('registerGamePlayer_args')
+    oprot.writeStructBegin('joinGame_args')
     if self.gameId is not None:
       oprot.writeFieldBegin('gameId', TType.STRING, 1)
       oprot.writeString(self.gameId)
@@ -833,7 +833,7 @@ class registerGamePlayer_args:
   def __ne__(self, other):
     return not (self == other)
 
-class registerGamePlayer_result:
+class joinGame_result:
   """
   Attributes:
    - success
@@ -869,7 +869,7 @@ class registerGamePlayer_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('registerGamePlayer_result')
+    oprot.writeStructBegin('joinGame_result')
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.STRING, 0)
       oprot.writeString(self.success)
