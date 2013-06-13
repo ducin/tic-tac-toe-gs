@@ -9,4 +9,4 @@ Prerequisites
 -------------
 
  * [thrift](http://thrift.apache.org/) (version 0.9.0), additionally make sure that `PYTHONPATH` includes thrift python packages, e.g.
-    `export PYTHONPATH=/usr/local/lib/python2.7/site-packages:/usr/local/lib/python2.7/dist-packages`
+    `export PYTHONPATH=/usr/lib/python2.7/site-packages:/usr/lib/python2.7/dist-packages`
